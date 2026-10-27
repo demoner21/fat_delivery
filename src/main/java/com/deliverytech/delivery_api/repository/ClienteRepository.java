@@ -16,6 +16,9 @@ public interface ClienteRepository  extends JpaRepository<Cliente, Long> {
     // buscar cliente por email
     Optional<Cliente> findByEmail(String email);
 
+    // buscar os clientes ativos
+    List<Cliente> findByAtivoTrue();
+
     // buscar cliente está ativo
     boolean existsByEmailAndAtivoTrue(String email);
 
