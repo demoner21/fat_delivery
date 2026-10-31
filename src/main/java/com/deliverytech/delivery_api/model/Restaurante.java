@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,8 +21,14 @@ public class Restaurante {
     private String endereco;
     private String telefone;
     private BigDecimal taxaEntrega;
+    private Integer tempoEntrega;
+    private String horarioFuncionamento;
     private boolean ativo;
     private BigDecimal avaliacao;
+
+    /* Data e hora de cadastri do restaurante, preenchida automaticamente */
+    @Column
+    private LocalDateTime dataCadastro;
 
     // Relacionamento com Pedido e Produto, 
     // tratativa através do @JsonIgnore para evitar problemas de serialização
@@ -32,5 +39,11 @@ public class Restaurante {
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos;
+
+    // Define automaticamente a data de cadastro antes de persistir
+    @PrePersist
+    protected void aoPersistir() {
+        this.dataCadastro = LocalDateTime.now();
+    }
 
 }
